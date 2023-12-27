@@ -58,13 +58,12 @@ def flash_button(value):
 # GPIO setup
 GPIO.setmode(GPIO.BCM)
 V_PIN = 5  # Connect to the V (Voltage) pin of the RGB LED
-R_PIN = 13  # Connect to the R (Red) pin of the RGB LED
-G_PIN = 6  # Connect to the G (Green) pin of the RGB LED
+R_PIN = 6  # Connect to the R (Red) pin of the RGB LED
+G_PIN = 13  # Connect to the G (Green) pin of the RGB LED
 B_PIN = 19  # Connect to the B (Blue) pin of the RGB LED
 GPIO.setup(V_PIN, GPIO.OUT)
 GPIO.setup(R_PIN, GPIO.OUT)
 GPIO.setup(G_PIN, GPIO.OUT)
-GPIO.setup(B_PIN, GPIO.OUT)
 
 # Create the main window
 root = tk.Tk()
