@@ -9,13 +9,10 @@ def on_button_click(value):
     if value == 'Enter':
         check_password(current_entry)
         entry_var.set('')
-        update_circle_display()
     elif value == 'C':
         entry_var.set('')
-        reset_circle_display()
     elif len(current_entry) < 4 and value.isdigit():
         entry_var.set(current_entry + value)
-        update_circle_display()
         flash_button(value)
 
 def check_password(password_attempt):
@@ -56,19 +53,6 @@ def flash_button(value):
         button.configure(bg="grey")
         root.after(100, lambda: button.configure(bg="black"))  # Flash for 100ms
 
-def update_circle_display():
-    entry_value = entry_var.get()
-
-    for i, circle in enumerate(circle_widgets):
-        if i < len(entry_value):
-            circle.config(bg="grey")
-        else:
-            circle.config(bg="black")
-
-def reset_circle_display():
-    for circle in circle_widgets:
-        circle.config(bg="black")
-
 # GPIO setup
 GPIO.setmode(GPIO.BCM)
 RED_PIN = 17  # Replace with the actual GPIO pin for the red LED
@@ -88,6 +72,11 @@ root.config(cursor="none")
 
 # Set a black background
 root.configure(bg="black")
+
+# Entry widget to display the password input
+entry_var = tk.StringVar()
+entry_widget = tk.Entry(root, textvariable=entry_var, font=("Helvetica", 20), justify='center', bd=5, relief='solid', fg="white", bg="black", width=4)
+entry_widget.pack(pady=20)
 
 # Create a Frame for the keypad
 keypad_frame = tk.Frame(root, bg="black")
@@ -116,17 +105,17 @@ for row in range(4):
 
         button.grid(row=row, column=col, padx=5, pady=5)
 
-# Create circles for display
-circle_widgets = [tk.Label(root, bg="black", width=2, height=1, bd=2, relief="solid") for _ in range(4)]
-for i, circle in enumerate(circle_widgets):
-    circle.pack(side=tk.TOP, padx=5)
-
 # Label to display access result with padding
 result_label = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", 20))
-result_label.pack(side=tk.BOTTOM, pady=20)
+result_label.pack(pady=20)
 
 # Bind the Escape key to exit the application
 root.bind("<Escape>", lambda event: root.destroy())
+
+# Center and place widgets in a vertical layout
+entry_widget.pack(side=tk.TOP, pady=20)
+keypad_frame.pack(side=tk.TOP)
+result_label.pack(side=tk.TOP, pady=20)
 
 # Initialize the traffic light as red
 control_traffic_light(False)
