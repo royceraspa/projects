@@ -34,8 +34,8 @@ keypad_buttons = [
     '7', '8', '9',
     '4', '5', '6',
     '1', '2', '3',
-    '0', 'C',
-    'ENTER'  # Clear button
+    '0', 'Enter',
+    'C'  # Clear button
 ]
 
 # Add keypad buttons to the Frame
