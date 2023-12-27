@@ -70,7 +70,7 @@ result_label.pack(pady=20)
 
 # Place widgets in a vertical layout with additional padding
 entry_widget.pack(side=tk.TOP, padx=20)
-keypad_frame.pack(side=tk.TOP, padx=20)
+keypad_frame.pack(side=tk.TOP, padx=70)
 result_label.pack(side=tk.TOP, padx=20)
 
 # Bind the Escape key to exit the application
