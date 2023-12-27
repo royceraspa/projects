@@ -1,4 +1,5 @@
 import tkinter as tk
+import RPi.GPIO as GPIO
 
 def on_button_click(value):
     current_entry = entry_var.get()
@@ -16,8 +17,25 @@ def check_password(password_attempt):
 
     if password_attempt == correct_password:
         result_label.config(text="ACCESS GRANTED", fg="green")
+        control_traffic_light(True)  # Turn on the green LED
     else:
         result_label.config(text="ACCESS DENIED", fg="red")
+        control_traffic_light(False)  # Turn on the red LED
+
+def control_traffic_light(access_granted):
+    if access_granted:
+        GPIO.output(RED_PIN, GPIO.LOW)   # Turn off the red LED
+        GPIO.output(GREEN_PIN, GPIO.HIGH)  # Turn on the green LED
+    else:
+        GPIO.output(RED_PIN, GPIO.HIGH)   # Turn on the red LED
+        GPIO.output(GREEN_PIN, GPIO.LOW)  # Turn off the green LED
+
+# GPIO setup
+GPIO.setmode(GPIO.BCM)
+RED_PIN = 17  # Replace with the actual GPIO pin for the red LED
+GREEN_PIN = 18  # Replace with the actual GPIO pin for the green LED
+GPIO.setup(RED_PIN, GPIO.OUT)
+GPIO.setup(GREEN_PIN, GPIO.OUT)
 
 # Create the main window
 root = tk.Tk()
@@ -42,9 +60,9 @@ keypad_frame = tk.Frame(root, bg="black")
 
 # Define keypad buttons
 keypad_buttons = [
-    '1', '2', '3',
-    '4', '5', '6',
     '7', '8', '9',
+    '4', '5', '6',
+    '1', '2', '3',
     '0', 'Enter',
     'C'  # Clear button
 ]
@@ -78,3 +96,6 @@ result_label.pack(side=tk.TOP, pady=20)
 
 # Start the main loop
 root.mainloop()
+
+# Cleanup GPIO
+GPIO.cleanup()
