@@ -116,14 +116,14 @@ for row in range(4):
 
         button.grid(row=row, column=col, padx=5, pady=5)
 
-# Label to display access result with padding
-result_label = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", 20))
-result_label.pack(pady=20)
-
 # Create circles for display
 circle_widgets = [tk.Label(root, bg="black", width=2, height=1, bd=2, relief="solid") for _ in range(4)]
 for i, circle in enumerate(circle_widgets):
-    circle.pack(side=tk.LEFT, padx=5)
+    circle.pack(side=tk.TOP, padx=5)
+
+# Label to display access result with padding
+result_label = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", 20))
+result_label.pack(side=tk.BOTTOM, pady=20)
 
 # Bind the Escape key to exit the application
 root.bind("<Escape>", lambda event: root.destroy())
