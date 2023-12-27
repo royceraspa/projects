@@ -1,63 +1,35 @@
-import tkinter as tk
-import threading
+Skip to content
+royceraspa
+/
+projects
 
-def on_button_click(value):
-    current_entry = entry_var.get()
+Type / to search
 
-    if value == 'Enter':
-        check_password(current_entry)
-        entry_var.set('')
-    elif value == 'C':
-        entry_var.set('')
-    elif len(current_entry) < 4 and value.isdigit():
-        entry_var.set(current_entry + value)
-
-def check_password(password_attempt):
-    correct_password = '2003'
-
-    if password_attempt == correct_password:
-        result_label.config(text="ACCESS GRANTED", fg="green")
-        reset_after_delay()
-    else:
-        result_label.config(text="ACCESS DENIED", fg="red")
-
-def reset_result_label():
-    result_label.config(text="")  # Clear the result label
-
-def reset_after_delay():
-    threading.Timer(5, reset_result_label).start()
-
-# Create the main window
-root = tk.Tk()
-root.title("Password Entry")
-
-# Set fullscreen mode
-root.attributes("-fullscreen", True)
-
-# Hide the mouse cursor
-root.config(cursor="none")
-
-# Set a black background
-root.configure(bg="black")
-
-# Entry widget to display the password input
-entry_var = tk.StringVar()
-entry_widget = tk.Entry(root, textvariable=entry_var, font=("Helvetica", 20), justify='center', bd=5, relief='solid', fg="white", bg="black", width=4)
-entry_widget.place(x=50, y=50)  # Adjust the x and y coordinates as needed
-
-# Create a Frame for the keypad
-keypad_frame = tk.Frame(root, bg="black")
-
-# Define keypad buttons
-keypad_buttons = [
-    '1', '2', '3',
-    '4', '5', '6',
-    '7', '8', '9',
-    '0', 'C',
-    'ENTER'  # Clear button
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+Commit
+Update gui.py
+ main
+@royceraspa
+royceraspa committed 1 hour ago 
+1 parent cb9ca1b
+commit 1d92c17
+Showing 1 changed file with 11 additions and 6 deletions.
+  17 changes: 11 additions & 6 deletions17  
+gui.py
+@@ -49,24 +49,29 @@ def check_password(password_attempt):
+    'C'  # Clear button
 ]
 
 # Add keypad buttons to the Frame
+# Add keypad buttons to the Frame with circular appearance
 for row in range(4):
     for col in range(3):
         index = row * 3 + col
@@ -65,16 +37,45 @@ for row in range(4):
         button = tk.Button(keypad_frame, text=button_value, width=5, height=2,
                            command=lambda value=button_value: on_button_click(value),
                            fg="white", bg="black", bd=4, relief='solid', font=("Helvetica", 16))
+
+        # Make buttons circular by setting oval shape
+        button.config(width=5, height=2)
+        button['border'] = '0'
+
         button.grid(row=row, column=col, padx=5, pady=5)
 
-keypad_frame.place(x=100, y=200)  # Adjust the x and y coordinates as needed
-
 # Label to display access result
+# Label to display access result with padding
 result_label = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", 20))
-result_label.place(x=200, y=400)  # Adjust the x and y coordinates as needed
+result_label.pack(pady=20)
+
+# Place widgets in a vertical layout
+entry_widget.pack(side=tk.TOP)
+keypad_frame.pack(side=tk.TOP)
+result_label.pack(side=tk.TOP)
+# Place widgets in a vertical layout with additional padding
+entry_widget.pack(side=tk.TOP, padx=20)
+keypad_frame.pack(side=tk.TOP, padx=20)
+result_label.pack(side=tk.TOP, padx=20)
 
 # Bind the Escape key to exit the application
 root.bind("<Escape>", lambda event: root.destroy())
-
-# Start the main loop
-root.mainloop()
+0 comments on commit 1d92c17
+@royceraspa
+Comment
+ 
+Leave a comment
+ 
+ You’re receiving notifications because you’re watching this repository.
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact
+Manage cookies
+Do not share my personal information
+Update gui.py · royceraspa/projects@1d92c17
