@@ -2,22 +2,22 @@ import tkinter as tk
 
 def on_button_click(value):
     current_entry = entry_var.get()
-    
+
     if value == 'Enter':
         check_password(current_entry)
         entry_var.set('')
     elif value == 'C':
         entry_var.set('')
-    else:
+    elif len(current_entry) < 4 and value.isdigit():
         entry_var.set(current_entry + value)
 
 def check_password(password_attempt):
     correct_password = '2003'
-    
+
     if password_attempt == correct_password:
-        result_label.config(text="Access Granted", fg="green")
+        result_label.config(text="ACCESS GRANTED", fg="green")
     else:
-        result_label.config(text="Access Denied", fg="red")
+        result_label.config(text="ACCESS DENIED", fg="red")
 
 # Create the main window
 root = tk.Tk()
@@ -34,7 +34,7 @@ root.configure(bg="black")
 
 # Entry widget to display the password input
 entry_var = tk.StringVar()
-entry_widget = tk.Entry(root, textvariable=entry_var, font=("Helvetica", 20), justify='center', bd=5, relief='solid', fg="white", bg="black")
+entry_widget = tk.Entry(root, textvariable=entry_var, font=("Helvetica", 20), justify='center', bd=5, relief='solid', fg="white", bg="black", width=4)
 entry_widget.pack(pady=20)
 
 # Create a Frame for the keypad
@@ -45,7 +45,7 @@ keypad_buttons = [
     '7', '8', '9',
     '4', '5', '6',
     '1', '2', '3',
-    '0', '.', 'Enter',
+    '0', 'Enter',
     'C'  # Clear button
 ]
 
@@ -64,7 +64,9 @@ result_label = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica"
 result_label.pack(pady=20)
 
 # Place widgets in a vertical layout
+entry_widget.pack(side=tk.TOP)
 keypad_frame.pack(side=tk.TOP)
+result_label.pack(side=tk.TOP)
 
 # Bind the Escape key to exit the application
 root.bind("<Escape>", lambda event: root.destroy())
