@@ -3,19 +3,19 @@ import time
 
 # Set GPIO mode and pin
 GPIO.setmode(GPIO.BCM)
-touch_pin = 17
+water_pin = 18
 
 # Set up GPIO pin as input
-GPIO.setup(touch_pin, GPIO.IN)
+GPIO.setup(water_pin, GPIO.IN)
 
-def touch_detected(channel):
-    print("Touch detected!")
+def water_detected(channel):
+    print("Water detected!")
 
 # Add event detection
-GPIO.add_event_detect(touch_pin, GPIO.FALLING, callback=touch_detected, bouncetime=300)
+GPIO.add_event_detect(water_pin, GPIO.FALLING, callback=water_detected, bouncetime=300)
 
 try:
-    print("Waiting for touch...")
+    print("Waiting for water...")
     while True:
         time.sleep(1)
 
