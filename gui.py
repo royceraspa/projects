@@ -1,7 +1,7 @@
 import tkinter as tk
 import threading
 
-def on_button_click(value, button):
+def on_button_click(value):
     current_entry = entry_var.get()
 
     if value == 'Enter':
@@ -12,7 +12,7 @@ def on_button_click(value, button):
     elif len(current_entry) < 4 and value.isdigit():
         entry_var.set(current_entry + value)
 
-    flash_button(button)
+    flash_button(value)
 
 def check_password(password_attempt):
     correct_password = '2003'
@@ -29,9 +29,11 @@ def reset_result_label():
 def reset_after_delay():
     threading.Timer(5, reset_result_label).start()
 
-def flash_button(button):
-    button.configure(bg="grey")
-    root.after(100, lambda: button.configure(bg="black"))  # Flash for 100ms
+def flash_button(value):
+    for child in keypad_frame.winfo_children():
+        if child.cget("text") == value:
+            child.configure(bg="grey")
+            root.after(100, lambda c=child: c.configure(bg="black"))  # Flash for 100ms
 
 # Create the main window
 root = tk.Tk()
@@ -69,7 +71,7 @@ for row in range(4):
         index = row * 3 + col
         button_value = keypad_buttons[index]
         button = tk.Button(keypad_frame, text=button_value, width=5, height=2,
-                           command=lambda value=button_value, btn=button: on_button_click(value, btn),
+                           command=lambda value=button_value: on_button_click(value),
                            fg="white", bg="black", bd=4, relief='solid', font=("Helvetica", 16))
         button.grid(row=row, column=col, padx=5, pady=5)
 
