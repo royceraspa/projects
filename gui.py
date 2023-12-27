@@ -117,6 +117,17 @@ entry_widget.pack(side=tk.TOP, pady=20)
 keypad_frame.pack(side=tk.TOP)
 result_label.pack(side=tk.TOP, pady=20)
 
+# Center widgets horizontally
+root.update_idletasks()  # Update the window to calculate proper geometry
+screen_width = root.winfo_screenwidth()
+entry_widget_x = (screen_width - entry_widget.winfo_width()) // 2
+keypad_frame_x = (screen_width - keypad_frame.winfo_width()) // 2
+result_label_x = (screen_width - result_label.winfo_width()) // 2
+
+entry_widget.pack_configure(ipadx=entry_widget_x)
+keypad_frame.pack_configure(ipadx=keypad_frame_x)
+result_label.pack_configure(ipadx=result_label_x)
+
 # Initialize the traffic light as red
 control_traffic_light(False)
 
