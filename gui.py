@@ -1,6 +1,7 @@
 import tkinter as tk
 import RPi.GPIO as GPIO
 import threading
+import time
 
 def on_button_click(value):
     current_entry = entry_var.get()
@@ -26,8 +27,12 @@ def check_password(password_attempt):
         control_rgb_led(False)  # Turn on the RGB LED with red color
 
 def control_rgb_led(access_granted):
-    GPIO.output(R_PIN, GPIO.LOW if access_granted else GPIO.HIGH)  # Red color
-    GPIO.output(G_PIN, GPIO.HIGH if access_granted else GPIO.LOW)  # Green color
+    if access_granted:
+        GPIO.output(R_PIN, GPIO.LOW)  # Turn off the red color
+        GPIO.output(G_PIN, GPIO.HIGH)  # Turn on the green color
+    else:
+        GPIO.output(R_PIN, GPIO.HIGH)  # Turn on the red color
+        GPIO.output(G_PIN, GPIO.LOW)   # Turn off the green color
 
 def reset_rgb_led():
     control_rgb_led(False)  # Turn on the RGB LED with red color
@@ -37,7 +42,12 @@ def reset_after_delay():
     threading.Timer(5, reset_rgb_led).start()
 
 def flash_button(value):
-    button = next((child for child in keypad_frame.winfo_children() if child.cget("text") == value), None)
+    button = None
+
+    for child in keypad_frame.winfo_children():
+        if child.cget("text") == value:
+            button = child
+            break
 
     if button:
         button.configure(bg="grey")
@@ -45,7 +55,10 @@ def flash_button(value):
 
 # GPIO setup
 GPIO.setmode(GPIO.BCM)
-R_PIN, G_PIN = 6, 19  # Red and Green pins
+V_PIN = 0  # Connect to the V (Voltage) pin of the RGB LED
+R_PIN = 6  # Connect to the R (Red) pin of the RGB LED
+G_PIN = 19  # Connect to the G (Green) pin of the RGB LED
+GPIO.setup(V_PIN, GPIO.OUT)
 GPIO.setup(R_PIN, GPIO.OUT)
 GPIO.setup(G_PIN, GPIO.OUT)
 
