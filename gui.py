@@ -6,7 +6,9 @@ def on_button_click():
 # Create the main window
 root = tk.Tk()
 root.title("My GUI App")
-root.geometry("1024x600")
+
+# Set fullscreen mode
+root.attributes("-fullscreen", True)
 
 # Create widgets
 label = tk.Label(root, text="Hello, GUI!")
