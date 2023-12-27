@@ -36,15 +36,22 @@ def control_traffic_light(access_granted):
 
 def reset_traffic_light():
     control_traffic_light(False)  # Turn on the red LED
+    result_label.config(text="")  # Clear the result label
 
 def reset_after_delay():
     threading.Timer(5, reset_traffic_light).start()
 
 def flash_button(value):
-    button_flash = tk.Button(keypad_frame, text=value, width=5, height=2,
-                             fg="white", bg="grey", bd=4, relief='solid', font=("Helvetica", 16))
-    button_flash.grid(row=0, column=0, padx=5, pady=5)
-    root.after(100, lambda: button_flash.grid_forget())  # Flash for 100ms
+    button = None
+
+    for child in keypad_frame.winfo_children():
+        if child.cget("text") == value:
+            button = child
+            break
+
+    if button:
+        button.configure(bg="grey")
+        root.after(100, lambda: button.configure(bg="black"))  # Flash for 100ms
 
 # GPIO setup
 GPIO.setmode(GPIO.BCM)
