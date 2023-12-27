@@ -1,4 +1,5 @@
 import tkinter as tk
+import threading
 
 def on_button_click(value):
     current_entry = entry_var.get()
@@ -16,8 +17,15 @@ def check_password(password_attempt):
 
     if password_attempt == correct_password:
         result_label.config(text="ACCESS GRANTED", fg="green")
+        reset_after_delay()
     else:
         result_label.config(text="ACCESS DENIED", fg="red")
+
+def reset_result_label():
+    result_label.config(text="")  # Clear the result label
+
+def reset_after_delay():
+    threading.Timer(5, reset_result_label).start()
 
 # Create the main window
 root = tk.Tk()
