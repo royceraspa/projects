@@ -89,11 +89,6 @@ root.config(cursor="none")
 # Set a black background
 root.configure(bg="black")
 
-# Entry widget to display the password input
-entry_var = tk.StringVar()
-entry_widget = tk.Entry(root, textvariable=entry_var, font=("Helvetica", 20), justify='center', bd=5, relief='solid', fg="white", bg="black", width=4, state="disabled")
-entry_widget.pack(pady=20)
-
 # Create a Frame for the keypad
 keypad_frame = tk.Frame(root, bg="black")
 
@@ -121,22 +116,17 @@ for row in range(4):
 
         button.grid(row=row, column=col, padx=5, pady=5)
 
-# Create circles for display
-circle_widgets = [tk.Label(keypad_frame, bg="black", width=2, height=1, bd=2, relief="solid") for _ in range(4)]
-for i, circle in enumerate(circle_widgets):
-    circle.grid(row=4, column=i, padx=5, pady=5)
-
 # Label to display access result with padding
 result_label = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", 20))
 result_label.pack(pady=20)
 
+# Create circles for display
+circle_widgets = [tk.Label(root, bg="black", width=2, height=1, bd=2, relief="solid") for _ in range(4)]
+for i, circle in enumerate(circle_widgets):
+    circle.pack(side=tk.LEFT, padx=5)
+
 # Bind the Escape key to exit the application
 root.bind("<Escape>", lambda event: root.destroy())
-
-# Center and place widgets in a vertical layout
-entry_widget.pack(side=tk.TOP, pady=20)
-keypad_frame.pack(side=tk.TOP)
-result_label.pack(side=tk.TOP, pady=20)
 
 # Initialize the traffic light as red
 control_traffic_light(False)
