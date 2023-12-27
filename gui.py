@@ -64,7 +64,7 @@ for row in range(4):
         button_value = keypad_buttons[index]
         button = tk.Button(keypad_frame, text=button_value, width=5, height=2,
                            command=lambda value=button_value: on_button_click(value),
-                           fg="white", bg="black", bd=4, relief='solid', font=("Helvetica", 16))
+                           fg="black", bg="black", bd=4, relief='solid', font=("Helvetica", 16))
         button.grid(row=row, column=col, padx=5, pady=5)
 
 # Label to display access result
