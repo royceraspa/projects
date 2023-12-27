@@ -27,6 +27,10 @@ def reset_result_label():
 def reset_after_delay():
     threading.Timer(5, reset_result_label).start()
 
+def flash_button(button):
+    button.configure(bg="grey")
+    root.after(100, lambda: button.configure(bg="black"))  # Flash for 100ms
+
 # Create the main window
 root = tk.Tk()
 root.title("Password Entry")
@@ -63,8 +67,8 @@ for row in range(4):
         index = row * 3 + col
         button_value = keypad_buttons[index]
         button = tk.Button(keypad_frame, text=button_value, width=5, height=2,
-                           command=lambda value=button_value: on_button_click(value),
-                           fg="black", bg="black", bd=4, relief='solid', font=("Helvetica", 16))
+                           command=lambda value=button_value: (on_button_click(value), flash_button(button)),
+                           fg="white", bg="black", bd=4, relief='solid', font=("Helvetica", 16))
         button.grid(row=row, column=col, padx=5, pady=5)
 
 # Label to display access result
