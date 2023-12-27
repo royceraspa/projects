@@ -47,7 +47,7 @@ for row in range(4):
         button = tk.Button(keypad_frame, text=button_value, width=5, height=2,
                            command=lambda value=button_value: on_button_click(value),
                            fg="white", bg="black", bd=4, relief='solid', font=("Helvetica", 16))
-        button.pack(pady=-50)
+        button.pack(pady=50)
         
         # Make buttons circular by setting oval shape
         button.config(width=5, height=2)
