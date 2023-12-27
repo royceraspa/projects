@@ -9,10 +9,13 @@ def on_button_click(value):
     if value == 'Enter':
         check_password(current_entry)
         entry_var.set('')
+        update_circle_display()
     elif value == 'C':
         entry_var.set('')
+        reset_circle_display()
     elif len(current_entry) < 4 and value.isdigit():
         entry_var.set(current_entry + value)
+        update_circle_display()
         flash_button(value)
 
 def check_password(password_attempt):
@@ -53,6 +56,19 @@ def flash_button(value):
         button.configure(bg="grey")
         root.after(100, lambda: button.configure(bg="black"))  # Flash for 100ms
 
+def update_circle_display():
+    entry_value = entry_var.get()
+
+    for i, circle in enumerate(circle_widgets):
+        if i < len(entry_value):
+            circle.config(bg="grey")
+        else:
+            circle.config(bg="black")
+
+def reset_circle_display():
+    for circle in circle_widgets:
+        circle.config(bg="black")
+
 # GPIO setup
 GPIO.setmode(GPIO.BCM)
 RED_PIN = 17  # Replace with the actual GPIO pin for the red LED
@@ -75,7 +91,7 @@ root.configure(bg="black")
 
 # Entry widget to display the password input
 entry_var = tk.StringVar()
-entry_widget = tk.Entry(root, textvariable=entry_var, font=("Helvetica", 20), justify='center', bd=5, relief='solid', fg="white", bg="black", width=4)
+entry_widget = tk.Entry(root, textvariable=entry_var, font=("Helvetica", 20), justify='center', bd=5, relief='solid', fg="white", bg="black", width=4, state="disabled")
 entry_widget.pack(pady=20)
 
 # Create a Frame for the keypad
@@ -104,6 +120,11 @@ for row in range(4):
         button['border'] = '0'
 
         button.grid(row=row, column=col, padx=5, pady=5)
+
+# Create circles for display
+circle_widgets = [tk.Label(keypad_frame, bg="black", width=2, height=1, bd=2, relief="solid") for _ in range(4)]
+for i, circle in enumerate(circle_widgets):
+    circle.grid(row=4, column=i, padx=5, pady=5)
 
 # Label to display access result with padding
 result_label = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", 20))
