@@ -1,7 +1,7 @@
 import tkinter as tk
 import threading
 
-def on_button_click(value):
+def on_button_click(value, button):
     current_entry = entry_var.get()
 
     if value == 'Enter':
@@ -11,6 +11,8 @@ def on_button_click(value):
         entry_var.set('')
     elif len(current_entry) < 4 and value.isdigit():
         entry_var.set(current_entry + value)
+
+    flash_button(button)
 
 def check_password(password_attempt):
     correct_password = '2003'
@@ -67,7 +69,7 @@ for row in range(4):
         index = row * 3 + col
         button_value = keypad_buttons[index]
         button = tk.Button(keypad_frame, text=button_value, width=5, height=2,
-                           command=lambda value=button_value: (on_button_click(value), flash_button(button)),
+                           command=lambda value=button_value, btn=button: on_button_click(value, btn),
                            fg="white", bg="black", bd=4, relief='solid', font=("Helvetica", 16))
         button.grid(row=row, column=col, padx=5, pady=5)
 
