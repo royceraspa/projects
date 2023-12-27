@@ -20,26 +20,28 @@ def check_password(password_attempt):
 
     if password_attempt == correct_password:
         result_label.config(text="ACCESS GRANTED", fg="green")
-        control_traffic_light(True)  # Turn on the green LED
+        control_rgb_led(True)  # Turn on the RGB LED with green color
         reset_after_delay()
     else:
         result_label.config(text="ACCESS DENIED", fg="red")
-        control_traffic_light(False)  # Turn on the red LED
+        control_rgb_led(False)  # Turn on the RGB LED with red color
 
-def control_traffic_light(access_granted):
+def control_rgb_led(access_granted):
     if access_granted:
-        GPIO.output(RED_PIN, GPIO.LOW)   # Turn off the red LED
-        GPIO.output(GREEN_PIN, GPIO.HIGH)  # Turn on the green LED
+        GPIO.output(R_PIN, GPIO.LOW)  # Turn off the red color
+        GPIO.output(G_PIN, GPIO.HIGH)  # Turn on the green color
+        GPIO.output(B_PIN, GPIO.LOW)  # Turn off the blue color
     else:
-        GPIO.output(RED_PIN, GPIO.HIGH)   # Turn on the red LED
-        GPIO.output(GREEN_PIN, GPIO.LOW)  # Turn off the green LED
+        GPIO.output(R_PIN, GPIO.HIGH)  # Turn on the red color
+        GPIO.output(G_PIN, GPIO.LOW)   # Turn off the green color
+        GPIO.output(B_PIN, GPIO.LOW)   # Turn off the blue color
 
-def reset_traffic_light():
-    control_traffic_light(False)  # Turn on the red LED
+def reset_rgb_led():
+    control_rgb_led(False)  # Turn on the RGB LED with red color
     result_label.config(text="")  # Clear the result label
 
 def reset_after_delay():
-    threading.Timer(5, reset_traffic_light).start()
+    threading.Timer(5, reset_rgb_led).start()
 
 def flash_button(value):
     button = None
@@ -55,10 +57,14 @@ def flash_button(value):
 
 # GPIO setup
 GPIO.setmode(GPIO.BCM)
-RED_PIN = 17  # Replace with the actual GPIO pin for the red LED
-GREEN_PIN = 18  # Replace with the actual GPIO pin for the green LED
-GPIO.setup(RED_PIN, GPIO.OUT)
-GPIO.setup(GREEN_PIN, GPIO.OUT)
+V_PIN = 5  # Connect to the V (Voltage) pin of the RGB LED
+R_PIN = 6  # Connect to the R (Red) pin of the RGB LED
+G_PIN = 19  # Connect to the G (Green) pin of the RGB LED
+B_PIN = 19  # Connect to the B (Blue) pin of the RGB LED
+GPIO.setup(V_PIN, GPIO.OUT)
+GPIO.setup(R_PIN, GPIO.OUT)
+GPIO.setup(G_PIN, GPIO.OUT)
+GPIO.setup(B_PIN, GPIO.OUT)
 
 # Create the main window
 root = tk.Tk()
@@ -117,8 +123,8 @@ entry_widget.pack(side=tk.TOP, pady=20)
 keypad_frame.pack(side=tk.TOP)
 result_label.pack(side=tk.TOP, pady=20)
 
-# Initialize the traffic light as red
-control_traffic_light(False)
+# Initialize the RGB LED as red
+control_rgb_led(False)
 
 # Start the main loop
 root.mainloop()
