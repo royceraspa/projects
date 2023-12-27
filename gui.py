@@ -64,6 +64,7 @@ B_PIN = 19  # Connect to the B (Blue) pin of the RGB LED
 GPIO.setup(V_PIN, GPIO.OUT)
 GPIO.setup(R_PIN, GPIO.OUT)
 GPIO.setup(G_PIN, GPIO.OUT)
+GPIO.setup(B_PIN, GPIO.OUT)
 
 # Create the main window
 root = tk.Tk()
