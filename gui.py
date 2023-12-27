@@ -1,5 +1,7 @@
 import tkinter as tk
 import RPi.GPIO as GPIO
+import threading
+import time
 
 def on_button_click(value):
     current_entry = entry_var.get()
@@ -11,6 +13,7 @@ def on_button_click(value):
         entry_var.set('')
     elif len(current_entry) < 4 and value.isdigit():
         entry_var.set(current_entry + value)
+        flash_button(value)
 
 def check_password(password_attempt):
     correct_password = '2003'
@@ -18,6 +21,7 @@ def check_password(password_attempt):
     if password_attempt == correct_password:
         result_label.config(text="ACCESS GRANTED", fg="green")
         control_traffic_light(True)  # Turn on the green LED
+        reset_after_delay()
     else:
         result_label.config(text="ACCESS DENIED", fg="red")
         control_traffic_light(False)  # Turn on the red LED
@@ -29,6 +33,18 @@ def control_traffic_light(access_granted):
     else:
         GPIO.output(RED_PIN, GPIO.HIGH)   # Turn on the red LED
         GPIO.output(GREEN_PIN, GPIO.LOW)  # Turn off the green LED
+
+def reset_traffic_light():
+    control_traffic_light(False)  # Turn on the red LED
+
+def reset_after_delay():
+    threading.Timer(5, reset_traffic_light).start()
+
+def flash_button(value):
+    button_flash = tk.Button(keypad_frame, text=value, width=5, height=2,
+                             fg="white", bg="grey", bd=4, relief='solid', font=("Helvetica", 16))
+    button_flash.grid(row=0, column=0, padx=5, pady=5)
+    root.after(100, lambda: button_flash.grid_forget())  # Flash for 100ms
 
 # GPIO setup
 GPIO.setmode(GPIO.BCM)
@@ -93,6 +109,9 @@ root.bind("<Escape>", lambda event: root.destroy())
 entry_widget.pack(side=tk.TOP, pady=20)
 keypad_frame.pack(side=tk.TOP)
 result_label.pack(side=tk.TOP, pady=20)
+
+# Initialize the traffic light as red
+control_traffic_light(False)
 
 # Start the main loop
 root.mainloop()
