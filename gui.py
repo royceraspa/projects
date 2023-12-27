@@ -30,9 +30,11 @@ def control_rgb_led(access_granted):
     if access_granted:
         GPIO.output(R_PIN, GPIO.LOW)  # Turn off the red color
         GPIO.output(G_PIN, GPIO.HIGH)  # Turn on the green color
+        GPIO.output(B_PIN, GPIO.LOW)  # Turn off the blue color
     else:
         GPIO.output(R_PIN, GPIO.HIGH)  # Turn on the red color
         GPIO.output(G_PIN, GPIO.LOW)   # Turn off the green color
+        GPIO.output(B_PIN, GPIO.LOW)   # Turn off the blue color
 
 def reset_rgb_led():
     control_rgb_led(False)  # Turn on the RGB LED with red color
@@ -58,9 +60,11 @@ GPIO.setmode(GPIO.BCM)
 V_PIN = 0  # Connect to the V (Voltage) pin of the RGB LED
 R_PIN = 6  # Connect to the R (Red) pin of the RGB LED
 G_PIN = 19  # Connect to the G (Green) pin of the RGB LED
+B_PIN = 19  # Connect to the B (Blue) pin of the RGB LED
 GPIO.setup(V_PIN, GPIO.OUT)
 GPIO.setup(R_PIN, GPIO.OUT)
 GPIO.setup(G_PIN, GPIO.OUT)
+GPIO.setup(B_PIN, GPIO.OUT)
 
 # Create the main window
 root = tk.Tk()
