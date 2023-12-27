@@ -48,11 +48,14 @@ root.config(cursor="none")
 # Set a black background
 root.configure(bg="black")
 
+# Label to display access result
+result_label = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", 20))
+result_label.pack(side=tk.TOP, pady=20)
+
 # Entry widget to display the password input
 entry_var = tk.StringVar()
 entry_widget = tk.Entry(root, textvariable=entry_var, font=("Helvetica", 20), justify='center', bd=5, relief='solid', fg="white", bg="black", width=4)
-entry_widget.pack(pady=20)
-entry_widget.pack(padx=50)
+entry_widget.pack(side=tk.TOP)  # Adjust the parameters as needed
 
 # Create a Frame for the keypad
 keypad_frame = tk.Frame(root, bg="black")
@@ -75,15 +78,6 @@ for row in range(4):
                            command=lambda value=button_value: on_button_click(value),
                            fg="white", bg="black", bd=4, relief='solid', font=("Helvetica", 16))
         button.grid(row=row, column=col, padx=5, pady=5)
-
-# Label to display access result
-result_label = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", 20))
-result_label.pack(pady=20)
-
-# Place widgets in a vertical layout
-entry_widget.pack(side=tk.TOP)
-keypad_frame.pack(side=tk.TOP)
-result_label.pack(side=tk.TOP)
 
 # Bind the Escape key to exit the application
 root.bind("<Escape>", lambda event: root.destroy())
