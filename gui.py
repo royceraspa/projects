@@ -71,5 +71,10 @@ result_label.pack(pady=20)
 # Bind the Escape key to exit the application
 root.bind("<Escape>", lambda event: root.destroy())
 
+# Center and place widgets in a vertical layout
+entry_widget.pack(side=tk.TOP, pady=20)
+keypad_frame.pack(side=tk.TOP)
+result_label.pack(side=tk.TOP, pady=20)
+
 # Start the main loop
 root.mainloop()
