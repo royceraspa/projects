@@ -52,6 +52,7 @@ root.configure(bg="black")
 entry_var = tk.StringVar()
 entry_widget = tk.Entry(root, textvariable=entry_var, font=("Helvetica", 20), justify='center', bd=5, relief='solid', fg="white", bg="black", width=4)
 entry_widget.pack(pady=20)
+entry_widget.pack(padx=50)
 
 # Create a Frame for the keypad
 keypad_frame = tk.Frame(root, bg="black")
