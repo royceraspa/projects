@@ -1,46 +1,42 @@
+import RPi.GPIO as GPIO
 import time
-import smbus2
 
-# Define the I2C address of the LCD module
-LCD_ADDRESS = 0x27
+# Set GPIO mode and pins
+GPIO.setmode(GPIO.BCM)
+red_pin = 17
+yellow_pin = 22
+green_pin = 10
 
-# Define commands for LCD
-LCD_CMD = 0x00
-LCD_DATA = 0x40
+# Set up GPIO pins as output
+GPIO.setup(red_pin, GPIO.OUT)
+GPIO.setup(yellow_pin, GPIO.OUT)
+GPIO.setup(green_pin, GPIO.OUT)
 
-# Define LCD column and row size
-LCD_COLUMNS = 16
-LCD_ROWS = 2
+def traffic_light_sequence():
+    try:
+        while True:
+            # Red light
+            GPIO.output(red_pin, GPIO.HIGH)
+            time.sleep(5)
 
-# Initialize the I2C bus
-bus = smbus2.SMBus(1)
+            # Transition to green (red and yellow off)
+            GPIO.output(red_pin, GPIO.LOW)
+            GPIO.output(yellow_pin, GPIO.LOW)
 
-def lcd_byte(cmd, mode):
-    bus.write_byte_data(LCD_ADDRESS, mode, cmd)
-    time.sleep(0.0001)
+            # Green light
+            GPIO.output(green_pin, GPIO.HIGH)
+            time.sleep(5)
 
-def lcd_string(message, line):
-    # Send the message to LCD
-    lcd_byte(0x80 + line*0x40, LCD_CMD)
-    for char in message:
-        lcd_byte(ord(char), LCD_DATA)
+            # Transition to yellow (green off)
+            GPIO.output(green_pin, GPIO.LOW)
+            GPIO.output(yellow_pin, GPIO.HIGH)
+            time.sleep(2)
 
-# Initialize LCD
-lcd_byte(0x33, LCD_CMD)
-lcd_byte(0x32, LCD_CMD)
-lcd_byte(0x06, LCD_CMD)
-lcd_byte(0x0C, LCD_CMD)
-lcd_byte(0x28, LCD_CMD)
-lcd_byte(0x01, LCD_CMD)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        # Cleanup
+        GPIO.cleanup()
 
-try:
-    # Display "royce" on LCD
-    lcd_string("royce", 0)
-    time.sleep(2)
-
-except KeyboardInterrupt:
-    pass
-finally:
-    # Cleanup
-    lcd_byte(0x01, LCD_CMD)
-    bus.close()
+if __name__ == "__main__":
+    traffic_light_sequence()
