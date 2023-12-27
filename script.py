@@ -1,42 +1,26 @@
 import RPi.GPIO as GPIO
 import time
 
-# Set GPIO mode and pins
+# Set GPIO mode and pin
 GPIO.setmode(GPIO.BCM)
-red_pin = 17
-yellow_pin = 22
-green_pin = 10
+touch_pin = 17
 
-# Set up GPIO pins as output
-GPIO.setup(red_pin, GPIO.OUT)
-GPIO.setup(yellow_pin, GPIO.OUT)
-GPIO.setup(green_pin, GPIO.OUT)
+# Set up GPIO pin as input
+GPIO.setup(touch_pin, GPIO.IN)
 
-def traffic_light_sequence():
-    try:
-        while True:
-            # Red light
-            GPIO.output(red_pin, GPIO.HIGH)
-            time.sleep(5)
+def touch_detected(channel):
+    print("Touch detected!")
 
-            # Transition to green (red and yellow off)
-            GPIO.output(red_pin, GPIO.LOW)
-            GPIO.output(yellow_pin, GPIO.LOW)
+# Add event detection
+GPIO.add_event_detect(touch_pin, GPIO.FALLING, callback=touch_detected, bouncetime=300)
 
-            # Green light
-            GPIO.output(green_pin, GPIO.HIGH)
-            time.sleep(5)
+try:
+    print("Waiting for touch...")
+    while True:
+        time.sleep(1)
 
-            # Transition to yellow (green off)
-            GPIO.output(green_pin, GPIO.LOW)
-            GPIO.output(yellow_pin, GPIO.HIGH)
-            time.sleep(2)
-
-    except KeyboardInterrupt:
-        pass
-    finally:
-        # Cleanup
-        GPIO.cleanup()
-
-if __name__ == "__main__":
-    traffic_light_sequence()
+except KeyboardInterrupt:
+    pass
+finally:
+    # Cleanup
+    GPIO.cleanup()
