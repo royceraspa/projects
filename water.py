@@ -10,8 +10,11 @@ class WaterSensorApp:
         self.root.title("Water Sensor GUI")
         self.root.geometry("300x100")
 
-        self.label = tk.Label(root, text="Water Sensor Status: ")
-        self.label.pack(pady=20)
+        self.status_label = tk.Label(root, text="Water Sensor Status: ", pady=10)
+        self.status_label.pack()
+
+        self.result_label = tk.Label(root, text="No Water Detected", fg="green")
+        self.result_label.pack(pady=10)
 
         # Create a digital input device for the water sensor
         self.water_sensor = DigitalInputDevice(SENSOR_PIN)
@@ -20,10 +23,10 @@ class WaterSensorApp:
         self.water_sensor.when_deactivated = self.water_not_detected
 
     def water_detected(self):
-        self.label.config(text="Water Detected!", fg="red")
+        self.result_label.config(text="Water Detected!", fg="red")
 
     def water_not_detected(self):
-        self.label.config(text="No Water Detected", fg="green")
+        self.result_label.config(text="No Water Detected", fg="green")
 
 if __name__ == "__main__":
     root = tk.Tk()
