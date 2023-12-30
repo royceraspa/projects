@@ -8,16 +8,21 @@ ir_transmitter_pin = 17
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(ir_transmitter_pin, GPIO.OUT)
 
+# Function to send an IR pulse
 def send_ir_pulse():
-    # Your code here to generate the IR pulse
-    # Example: GPIO.output(ir_transmitter_pin, GPIO.HIGH)
-    #          time.sleep(0.5)  # Adjust the sleep duration based on your requirements
-    #          GPIO.output(ir_transmitter_pin, GPIO.LOW)
+    GPIO.output(ir_transmitter_pin, GPIO.HIGH)  # Turn on the IR transmitter
+    time.sleep(0.5)  # Adjust the sleep duration based on your requirements
+    GPIO.output(ir_transmitter_pin, GPIO.LOW)  # Turn off the IR transmitter
 
-# Example: Send IR pulse 10 times
-for _ in range(10):
-    send_ir_pulse()
-    time.sleep(1)  # Adjust the sleep duration between pulses if needed
+# Send IR pulses in a loop
+try:
+    while True:
+        send_ir_pulse()
+        time.sleep(1)  # Adjust the sleep duration between pulses if needed
 
-# Clean up GPIO
-GPIO.cleanup()
+except KeyboardInterrupt:
+    pass
+
+finally:
+    # Clean up GPIO on script exit
+    GPIO.cleanup()
