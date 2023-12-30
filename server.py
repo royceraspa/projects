@@ -3,8 +3,7 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 # In-memory storage for simplicity (not suitable for production)
-user_credentials = {'user1': {'password': 'password1', 'balance': 100},
-                    'user2': {'password': 'password2', 'balance': 50}}
+user_credentials = {'royceraspa': {'password': 'royce2003', 'balance': 1000}}
 
 @app.route('/login', methods=['POST'])
 def login():
